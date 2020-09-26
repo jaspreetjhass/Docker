@@ -1,0 +1,16 @@
+how to install docker-machine ?
+
+step-1 : To download and install the binary, type:
+wget https://github.com/docker/machine/releases/download/v0.14.0/docker-machine-$(uname -s)-$(uname -m)
+
+step-2 : The name of the file should be docker-machine-Linux-x86_64. Rename it to docker-machine to make it easier to work with:
+mv docker-machine-Linux-x86_64 docker-machine
+
+step-3 : Make it executable:
+chmod +x docker-machine
+
+step-4 : Move or copy it to the usr/local/bin directory so that it will be available as a system command.
+sudo mv docker-machine /usr/local/bin
+
+step-5 : create symbolic link
+sudo ln -s /usr/local/bin/docker-machine /usr/bin/docker-machine
