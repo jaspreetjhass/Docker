@@ -1,0 +1,33 @@
+Types of volumes in docker :
+1- Anonymous volume
+2- Named volume
+3 - Host or Bind volume
+
+how to create volume ?
+docker volume create volume_name
+
+how to remove volume ?
+docker volume rm volume_name
+
+how to inspect volume ?
+docker volume inspect volume_name
+
+how to remove all volumes >
+docker volume prune 
+
+how to list volume ?
+docker volume ls
+
+Scenario 1 - bind an anonymous volume to a container
+docker run --volume /app -p 8080:8080 --name nginx nginix
+
+Scenario 2 - bind an named volume to a container
+docker volume create myvol1
+docker run --volume myvol1:/app - 8080:8080 --name nginx nginx
+
+Scenario 3 - bind a host volume to a container
+docker run --volume /home/ubunt/custom_volume:/app -p 8080:8080 --name nginx nginx
+
+Note: volume can be shared among containers
+
+Note: Anonymous and Named volumes are created inside /var/lib/docker/volumes.... folder structure
