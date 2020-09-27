@@ -1,0 +1,10 @@
+how to create network ?
+docker network create --driver=bridge network_name
+
+how to list networks ?
+docker network ls
+
+Note: By default, docker provides 3 types of networks
+1 - bridge - containers can communicate with each another by ip address 
+2 - none - containers cannot communicate with each other
+3 - host - container is accessible automatically on port 5000
