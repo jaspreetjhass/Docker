@@ -1,0 +1,51 @@
+how to init swarm manager ?
+docker swarm init
+
+how to check token for worker node ?
+docker swarm join-token worker
+
+how to check token for manager node ?
+docker swarm join-token manager
+
+how to leave swarm cluster ?
+docker swarm leave
+
+commands available only on manager
+how to check swarm nodes in the cluster ?
+docker node ls
+
+how to move node from active to drain mode ?
+docker node update --availability drain node_name
+
+Note:  In case of drain mode, docker swarm will not launch containers on that node
+
+how to inspect node ?
+docker node inspect node_name
+
+how to create service in docker swarm?
+docker service create --name service_name --replicas 2 image_name
+
+how to list services running on swarm cluster ?
+docker service ls
+
+how to check on which node services are deployed ?
+docker service ps service_name
+
+how to remove service ?
+docker service rm service_name
+
+how to deploy stack on swarm cluster ?
+docker stack deploy -c docker_compose_file stack_name
+
+how to list stack ?
+docker stack ls
+
+how to check services running inside stack ?
+docker stack services stack_name
+
+Note: stack can have one or more services
+
+Note: multiple stack can be deployed on the swarm cluster 
+
+how to scale up service running inside swarm cluster ?
+docker service scale service_name=5
