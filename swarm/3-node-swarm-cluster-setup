@@ -1,19 +1,37 @@
-how to start mysql in docker swarm ?
+step-1 --> create a master node 
+docker swarm init
+
+Note: If you want to connect a node to a swarm cluster, then execute the below command to get the token 
+docker swarm join-token worker
+
+Note: If you want to connect an another master to a swarm cluster, then execute the below command to get the token
+docker swarm join-token manager
+
+Note:
+To use the ingress network in the swarm, you need to have the following ports open between the swarm nodes before you enable swarm mode:
+
+Port 7946 TCP/UDP for container network discovery.
+Port 4789 UDP for the container ingress network.
+
+step-2 --> create a overlay network which will span over multiple host so that container running on hosts can communicate with each other 
+ docker network create --driver overlay overnet
+ 
+step-3 --> start mysql in docker swarm master node
 docker service create --name mysql-server --mount type=bind,src=/home/ubuntu/docker-storage/sql,dst=/var/lib/mysql --mount type=bind,src=/home/ubuntu/mysql-config/,dst=/etc/mysql/conf.d -e MYSQL_ROOT_PASSWORD=root --network overnet mysql
 
-how to start config server in docker swarm cluster (3 - node) ?
+step-4 --> start config server in docker swarm cluster (3 - node)
 docker service create --name config-server --replicas 1 --network overnet --env-file=config-env jaspreetjhass91/config-server
 
 where config-env contains following environment variables
 
-how to start eureka-server in docker swarm cluster (3 - node) ?
+step-5 --> start eureka-server in docker swarm cluster (3 - node)
 docker service create --name eureka-server --replicas 1 --network overnet --env EUREKA_SERVER_PORT=8761 -p 8761:8761 jaspreetjhass91/eureka-server
 
-how to start microservice in docker swarm cluster (3 - node) ?
+step-6 --> start microservice in docker swarm cluster (3 - node)
 docker service create --name passenger-core-service --replicas 1 --network overnet -p 8070:8070 -e SERVER_PORT=8070 -e ACTIVE_PROFILE=cloud -e CONFIG_SERVER_URL=http://config-server:9090 jaspreetjhass91/passenger-core
 
-how to start microservice in docker swarm cluster (3 - node) ?
+step-7 --> start microservice in docker swarm cluster (3 - node)
 docker service create --name passenger-travel-detail-batch-composite --replicas 1 --network overnet -p 8090:8090 -e PASSENGER_CORE_URL=http://passenger-core-service:8070/passengerCore -e SERVER_PORT=8090 -e ACTIVE_PROFILE=cloud -e CONFIG_SERVER_URL=http://config-server:9090 jaspreetjhass91/passenger-batch
 
-how to start docker visualizer on docker swarm cluster ?
+step-8 --> start docker visualizer on docker swarm cluster
 docker service create --name=visualizer --publish=8080:8080 --constraint=node.role==manager --mount=type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock dockersamples/visualizer
