@@ -16,7 +16,14 @@ Port 4789 UDP for the container ingress network.
 step-2 --> create a overlay network which will span over multiple host so that container running on hosts can communicate with each other 
  docker network create --driver overlay overnet
  
-step-3 --> start mysql in docker swarm master node
+step-3 --> start mysql in docker swarm master node. Before starting a service, make dir /home/ubuntu/mysql-config and place mysql.cnf file on it with the below contents
+
+[mysqld]
+bind-address=0.0.0.0
+[client]
+user=root
+password=root
+
 docker service create --name mysql-server --mount type=bind,src=/home/ubuntu/docker-storage/sql,dst=/var/lib/mysql --mount type=bind,src=/home/ubuntu/mysql-config/,dst=/etc/mysql/conf.d -e MYSQL_ROOT_PASSWORD=root --network overnet mysql
 
 step-4 --> start config server in docker swarm cluster (3 - node)
