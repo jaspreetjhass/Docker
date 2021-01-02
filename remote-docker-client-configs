@@ -1,0 +1,15 @@
+step - 1 - establish ssh communication between client and host by generating pub key in client machine
+ssh-keygen -t rsa
+
+step - 2 - copy the above public key & past it on host server in .ssh/authorized_keys
+
+step - 3 - run below command on host machine
+chmod 700 .ssh
+
+step - 4 - run below command on host machine
+chmod 640 .ssh/authorized_keys
+
+step - 5 edit DOCKER_HOST env variable on client machine with the below details
+export DOCKER_HOST=ssh://username@remote_host_ip
+
+step - 6 add rule to enable port 2375 in security group for host machine
